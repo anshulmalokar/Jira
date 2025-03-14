@@ -16,17 +16,15 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import Link from 'next/link'
+import { formSchema } from '@/app/(auth)/schema'
+import { useSignUp } from '../api/use-signup'
 
 type Props = {}
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Required"),
-  email: z.string().email(),
-  password: z.string().min(1, "Required"),
-});
-
 export default function SingUpCard({}: Props) {
   
+  const {mutate} = useSignUp();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues:{
@@ -37,7 +35,7 @@ export default function SingUpCard({}: Props) {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    mutate({json: values});
   }
 
   return (

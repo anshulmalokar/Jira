@@ -35,6 +35,7 @@ export default function SingInCard({}: Props) {
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     const req = {json: values};
+    console.log(req);
     mutate(req);
   }
 
