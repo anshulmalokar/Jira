@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Sidebar from "@/components/Sidebar";
 import NavBar from '@/components/NavBar';
 type Props = {
