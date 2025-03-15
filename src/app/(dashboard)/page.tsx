@@ -9,7 +9,7 @@ export default async function Home() {
   }
   return (
     <>
-      <UserBtn/>
+       This is a home page
     </>
   );
 }
