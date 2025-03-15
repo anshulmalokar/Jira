@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { DottedSeparator } from '@/components/dotted-seperator'
@@ -23,7 +24,7 @@ type Props = {}
 
 export default function SingUpCard({}: Props) {
   
-  const {mutate} = useSignUp();
+  const {mutate, isPending} = useSignUp();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,7 +94,7 @@ export default function SingUpCard({}: Props) {
               </FormItem>
             )}/>
             <Button
-            disabled={false}
+            disabled={isPending}
             size={"lg"}
             className='w-full'>
               Login
@@ -105,14 +106,14 @@ export default function SingUpCard({}: Props) {
         <DottedSeparator/>
       </div>
       <CardContent className='p-7 flex flex-col gap-y-4'>
-        <Button disabled={false}
+        <Button disabled={isPending}
         size={"lg"}
         className='w-full'>
           <FaGoogle className='mr-2'/> Login with Google
         </Button>
       </CardContent>
       <CardContent className='flex flex-col gap-y-4'>
-        <Button disabled={false}
+        <Button disabled={isPending}
         size={"lg"}
         className='w-full'>
           <FaGithub className='mr-2'/> Login with Facebook
