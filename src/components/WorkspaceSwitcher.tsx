@@ -25,7 +25,8 @@ export default function WorkspaceSwitcher({}: Props) {
                 <SelectValue placeholder='No workspace selected'/>
                 <SelectContent>
                     {
-                        workspaces?.documents.map((workspace) => {
+                        // @ts-ignore
+                      workspaces?.total > 0 &&  workspaces?.documents.map((workspace) => {
                             return <>
                                 <SelectItem key={workspace.$id} value={workspace.$id}>
                                     <div className='flex justify-start items-center gap-2 font-medium'>
