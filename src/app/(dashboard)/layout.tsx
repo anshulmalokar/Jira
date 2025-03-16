@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from "@/components/Sidebar";
 import NavBar from '@/components/NavBar';
+import CreateWorkSpaceMode from '@/features/workspaces/components/CreateWorkSpaceMode';
 type Props = {
     children: React.ReactNode
 }
@@ -8,6 +9,7 @@ type Props = {
 export default function layout({children}: Props) {
   return (
     <div className='min-h-screen'>
+        <CreateWorkSpaceMode/>
         <div className='flex w-full h-full'>
            <div className='fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto'>
                 <Sidebar/>

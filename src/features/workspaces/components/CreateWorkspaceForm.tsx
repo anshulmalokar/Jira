@@ -12,7 +12,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-  } from "@/components/ui/form"
+  } from "@/components/ui/form";
 import { DottedSeparator } from '@/components/dotted-seperator';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,12 +22,14 @@ import { Avatar } from '@/components/ui/avatar';
 import Image from 'next/image';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { ImageIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type Props = {
     onCancel?: () => void,
 }
 
 export default function CreateWorkspaceForm({onCancel}: Props) {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const {mutate, isPending} = useCreateWorkspace();
   const form = useForm<z.infer<typeof workspaceSchema>>({
@@ -46,16 +48,16 @@ export default function CreateWorkspaceForm({onCancel}: Props) {
   };
 
   const onSubmit = (values: z.infer<typeof workspaceSchema>) => {
-    console.log("Hello");
     const finalValue = {
         name: values.name,
         image: values.image instanceof File ? values.image : ""
     };
     mutate({form: finalValue},{
-        onSuccess: () => {
+        onSuccess: ({data}) => {
             form.reset();
-            // ToDo: ReDirect to new workspace
-        }
+            console.log('page will be redirected')
+            router.push(`/workspaces/${data.$id}`);
+        },
     });
   }
 
@@ -155,8 +157,7 @@ export default function CreateWorkspaceForm({onCancel}: Props) {
                                 <Button 
                                 type='submit'
                                 disabled={isPending}
-                                size={'lg'}
-                                onClick={onCancel}>
+                                size={'lg'}>
                                     Create Workspace
                                 </Button>
                             </div>
