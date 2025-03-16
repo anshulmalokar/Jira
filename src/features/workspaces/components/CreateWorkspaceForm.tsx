@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { ImageIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 type Props = {
     onCancel?: () => void,
@@ -55,7 +56,6 @@ export default function CreateWorkspaceForm({onCancel}: Props) {
     mutate({form: finalValue},{
         onSuccess: ({data}) => {
             form.reset();
-            console.log('page will be redirected')
             router.push(`/workspaces/${data.$id}`);
         },
     });
@@ -146,12 +146,19 @@ export default function CreateWorkspaceForm({onCancel}: Props) {
                                 </div>
                             )}>
                             </FormField>
+                            <div className='px-4'>
+                                <DottedSeparator/>
+                            </div>
                             <div className='flex items-center justify-between'>
-                                <Button 
+                                <Button
+                                className = {cn(
+                                    !onCancel && "invisible"
+                                )}
                                 disabled={isPending}
                                 type='button'
                                 size={'lg'}
-                                onClick={onCancel}>
+                                onClick={onCancel}
+                                >
                                     Cancel
                                 </Button>
                                 <Button 
