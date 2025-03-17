@@ -15,7 +15,7 @@ type Props = {
   message: string;
 };
 
-type UseConfirmReturn = {
+export type UseConfirmReturn = {
   ConfirmationDialog: () => JSX.Element;
   confirm: () => Promise<unknown>;
 };
