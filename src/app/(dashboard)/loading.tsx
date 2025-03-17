@@ -6,7 +6,7 @@ type Props = {}
 export default function loading({}: Props) {
   return (
     <div className='h-screen flex items-center justify-center'>
-      <Loader className='size-9 animate-spin text-muted-foreground'/>
+      <Loader className='size-9 animate-ping text-muted-foreground'/>
     </div>
   )
 }

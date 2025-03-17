@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { workspaceSchema } from "../schema";
+import { updateWorkSpaceSchema } from "../schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -16,30 +16,33 @@ import {
 import { DottedSeparator } from "@/components/dotted-seperator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useCreateWorkspace } from "../api/use-createworkspace";
 import { useRef } from "react";
 import { Avatar } from "@/components/ui/avatar";
 import Image from "next/image";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { ImageIcon } from "lucide-react";
+import { ArrowLeft, ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Workspace } from "../types";
+import { useUpdateWorkSpace } from "../api/use-update-workspace";
 
 type Props = {
   onCancel?: () => void;
+  initialValues: Workspace;
 };
 
-export default function CreateWorkspaceForm({ onCancel }: Props) {
+export default function EditWorkSpace({ onCancel, initialValues }: Props) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { mutate, isPending } = useCreateWorkspace();
-  const form = useForm<z.infer<typeof workspaceSchema>>({
-    resolver: zodResolver(workspaceSchema),
+  const { mutate, isPending } = useUpdateWorkSpace();
+  const form = useForm<z.infer<typeof updateWorkSpaceSchema>>({
+    resolver: zodResolver(updateWorkSpaceSchema),
     defaultValues: {
-      name: "",
-      image: "",
+      ...initialValues,
+      image: initialValues.imageUrl ?? "",
     },
   });
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -47,28 +50,36 @@ export default function CreateWorkspaceForm({ onCancel }: Props) {
     }
   };
 
-  const onSubmit = (values: z.infer<typeof workspaceSchema>) => {
+  const onSubmit = (values: z.infer<typeof updateWorkSpaceSchema>) => {
     const finalValue = {
       name: values.name,
       image: values.image instanceof File ? values.image : "",
     };
-    mutate(
-      { form: finalValue },
-      {
-        onSuccess: ({ data }) => {
-          form.reset();
-          router.push(`/workspaces/${data.$id}`);
-        },
-      }
-    );
+    mutate({
+      form: finalValue,
+      param: { workspaceId: initialValues.$id },
+    });
   };
 
   return (
     <>
       <Card className="w-full h-full border-none shadow-none">
-        <CardHeader className="flex p-7">
+        <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-4">
+          <Button
+            size={"sm"}
+            onClick={
+              onCancel
+                ? onCancel
+                : () => {
+                    router.push(`/workspaces/${initialValues.$id}`);
+                  }
+            }
+          >
+            <ArrowLeft className="size-4" />
+            Back
+          </Button>
           <CardTitle className="text-xl font-bold">
-            Create a new workspace
+            {initialValues.name}
           </CardTitle>
         </CardHeader>
         <div className="px-7">
@@ -132,7 +143,7 @@ export default function CreateWorkspaceForm({ onCancel }: Props) {
                             disabled={isPending}
                             onChange={handleImageChange}
                           />
-                          {field.value? (
+                          {field.value ? (
                             <Button
                               disabled={isPending}
                               type="button"
@@ -141,8 +152,8 @@ export default function CreateWorkspaceForm({ onCancel }: Props) {
                               className="w-full mt-2"
                               onClick={() => {
                                 field.onChange(null);
-                                if(inputRef.current){
-                                    inputRef.current.value = "";
+                                if (inputRef.current) {
+                                  inputRef.current.value = "";
                                 }
                               }}
                             >
@@ -181,7 +192,7 @@ export default function CreateWorkspaceForm({ onCancel }: Props) {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isPending} size={"lg"}>
-                    Create Workspace
+                    Save Changes
                   </Button>
                 </div>
               </div>
