@@ -1,8 +1,8 @@
 import React from 'react'
 import EditWorkSpace from '@/features/workspaces/components/EditWorkspaceFrom'
-import { getCurrent } from '@/features/auth/server/action'
+import { getCurrent } from '@/features/auth/server/quries'
 import { redirect } from 'next/navigation';
-import { getWorkSpace } from '@/features/workspaces/action';
+import { getWorkSpace } from '@/features/workspaces/quries';
 
 type Props = {
     params: {

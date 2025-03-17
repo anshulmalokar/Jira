@@ -1,5 +1,5 @@
 import SingUpCard from '@/features/auth/components/SingUpCard'
-import { getCurrent } from '@/features/auth/server/action';
+import { getCurrent } from '@/features/auth/server/quries';
 import { redirect } from 'next/navigation';
 import React from 'react'
 

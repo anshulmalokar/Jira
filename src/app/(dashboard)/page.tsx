@@ -1,6 +1,6 @@
 import { UserBtn } from "@/features/auth/components/UserBtn";
-import { getCurrent } from "@/features/auth/server/action";
-import { getWorkSpaces } from "@/features/workspaces/action";
+import { getCurrent } from "@/features/auth/server/quries";
+import { getWorkSpaces } from "@/features/workspaces/quries";
 import { redirect } from "next/navigation";
 
 export default async function Home() {

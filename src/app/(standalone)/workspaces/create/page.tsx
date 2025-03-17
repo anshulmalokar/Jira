@@ -1,4 +1,4 @@
-import { getCurrent } from '@/features/auth/server/action';
+import { getCurrent } from '@/features/auth/server/quries';
 import CreateWorkspaceForm from '@/features/workspaces/components/CreateWorkspaceForm'
 import { redirect } from 'next/navigation';
 import React from 'react'
